@@ -12,6 +12,11 @@ manager = Manager(app)
 # setproctitle(APP_NAME)
 
 
+@app.route('/')
+def something():
+    return 'чето страненькое все это'
+
+
 @manager.option('-h', '--host', dest='host', default='0.0.0.0')
 @manager.option('-p', '--port', dest='port')
 def runserver(host='0.0.0.0', port=None):
