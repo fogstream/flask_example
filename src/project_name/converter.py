@@ -6,19 +6,27 @@ from flask import (
 bp = Blueprint('converter', __name__, url_prefix='/')
 
 
+def convert_elem(elem):
+    result = ""
+    if isinstance(elem, list):
+        result += "<ul>"
+        for item in elem:
+            print(item)
+            result += "<li>"
+            result += convert_elem(item)
+            result += "</li>"
+            print(result)
+        result += "</ul>"
+    elif isinstance(elem, dict):
+        for key in elem.keys():
+            result += "<"+key+">"
+            result += convert_elem(elem.get(key, ''))
+            result += "</"+key+">"
+    else:
+        result += elem
+    return result
+
 @bp.route('/convert', methods=['POST'])
 def convert():
-    result = ""
     data = request.get_json()
-    if isinstance(data, list):
-        result += "<ul>"
-        for p in data:
-            result += "<li>"
-            for key in p.keys():
-                result += "<"+key+">"+p.get(key, '')+"</"+key+">"
-            result += "</li>\n"
-        result += "</ul>"
-    else:
-        for key in data:
-            result += "<" + key + ">" + data.get(key, '') + "</" + key + ">"
-    return result
+    return convert_elem(data)
