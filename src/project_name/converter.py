@@ -12,7 +12,7 @@ def convert():
     json_data = request.get_json()
     if isinstance(json_data, list):
         for p in json_data:
-
-            result += "<h1>"+p.get('title', '')+"</h1>\n"
-            result += "<p>"+p.get('body', '')+"</p>\n"
+            for key in p.keys():
+                result += "<"+key+">"+p.get(key, '')+"</"+key+">"
+            result += "\n"
     return result
